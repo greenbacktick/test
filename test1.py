@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+import re
+
 class Mac:
     'Common class to represente MAC'
     
@@ -26,15 +28,24 @@ class Mac:
             print "-".join(self.mac_dst)
         else :
             print "Error source format unknown"
-        
+
+    def cleanMac(self):
+        p = re.compile( '[0-9a-fA-F]+')
+        cleaned_mac = ''.join(p.findall(self.mac))
+        return cleaned_mac
+
+    def printMac(self):
+        cleaned_mac = self.cleanMac()
+        print cleaned_mac
 
 mac1 = Mac("001122334455","plain","ieee")
 mac2 = Mac("66:77:88:99:00:11","ieee","ieee")
 mac3 = Mac("00:AA:11:BB:22:CC","pf","cisco")
 
-mac1.displayMac()
-mac1.changeFormat()
-mac2.displayMac()
-mac2.changeFormat()
-mac3.displayMac()
-mac3.changeFormat()
+#mac1.displayMac()
+#mac1.changeFormat()
+#mac2.displayMac()
+#mac2.changeFormat()
+#mac3.displayMac()
+#mac3.changeFormat()
+mac2.printMac()
