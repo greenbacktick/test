@@ -5,17 +5,18 @@ import re
 class Mac:
     'Common class to represente MAC'
 
-    def __init__(self,mac,formac_src,formac_dst):
-        self.mac = mac.lower()
-        self.formac_src = formac_src.upper()
-        self.formac_dst = formac_dst.upper()
+    def __init__(self,mac):
+        self.mac = mac
+        self.mac_internal = self.mac.normalize()
     
+    def findFormat(self):
+
     def displayMac(self):
         mac = self.changeFormat()
         print "MAC", mac, "format : ", self.formac_src, "to format : ", self.formac_dst
     
     def changeFormat(self):
-        mac = self.cleanMac()
+        mac = self.normalize()
         if self.formac_dst == 'CISCO':
             mac_dst = ".".join((mac[:4],mac[4:8],mac[8:]))
         elif self.formac_dst == 'PLAIN':
@@ -28,7 +29,7 @@ class Mac:
             print "Error source format unknown"
         return mac_dst
     
-    def cleanMac(self):
+    def normalize(self):
         p = re.compile( '[0-9a-fA-F]+')
         cleaned_mac = ''.join(p.findall(self.mac))
         if len(cleaned_mac) != 12:
